@@ -1,6 +1,6 @@
 languaje: python
 python:
-    - "3.6"
+    - "3.8"
 script:
     - coverage run test_producto.py
 
