@@ -90,6 +90,20 @@ class TestProducto(unittest.TestCase):
         with self.assertRaises(ValueError):
             ProductoService().delete_producto(long_list+1)
 
+    @parameterized.expand([
+        (200000, {'_descripcion':
+         'samsung s10', '_precio': 200000, '_tipo': 'celular'}),
+        (400000, {'_descripcion':
+         'samsung s20', '_precio': 400000, '_tipo': 'celular'}),
+        (6000500, {'_descripcion': 
+         'acer','_precio': 6000500, '_tipo': 'computadoras'}),
+    ])
+    # Busqueda binaria
+    def test_busqueda_binaria(self, precio_buscado, producto):
+        busqueda = ProductoService().\
+            busqueda_binaria(Repositorios.productosList, precio_buscado)
+        self.assertDictEqual(busqueda, producto)
+
 
 if __name__ == '__main__':
     unittest.main()

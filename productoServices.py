@@ -46,3 +46,17 @@ class ProductoService():
                 dic[j] = dicActual
                 precio[j] = precioActual
         return dic
+
+    
+    def busqueda_binaria(self, listaDesordenada, precio_buscado):
+        dic = self.insertion_sort_precio(listaDesordenada, "ascendente")
+        keyBuscada = len(dic)//2
+        while dic[keyBuscada]["_precio"] != precio_buscado:
+            keydezplazamiento = keyBuscada//2
+            if keydezplazamiento == 0:
+                keydezplazamiento = 1
+            if dic[keyBuscada]["_precio"] < precio_buscado:
+                keyBuscada = keyBuscada + keydezplazamiento
+            elif dic[keyBuscada]["_precio"] > precio_buscado:
+                keyBuscada = keyBuscada - keydezplazamiento
+        return dic[keyBuscada]
