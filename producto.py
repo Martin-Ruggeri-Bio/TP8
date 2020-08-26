@@ -1,9 +1,9 @@
 class Producto():
 
     def __init__(self, descripcion="", precio=0, tipo=""):
-        self._descripcion = descripcion
-        self._precio = precio
-        self._tipo = tipo
+        self.descripcion = descripcion
+        self.precio = precio
+        self.tipo = tipo
 
     @property
     def descripcion(self):
