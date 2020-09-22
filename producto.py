@@ -1,9 +1,10 @@
 class Producto():
 
-    def __init__(self, descripcion="", precio=0, tipo=""):
+    def __init__(self, descripcion="", precio=0, tipo="", estado='disponible'):
         self.descripcion = descripcion
         self.precio = precio
         self.tipo = tipo
+        self.estado = estado
 
     @property
     def descripcion(self):
@@ -19,6 +20,8 @@ class Producto():
 
     @precio.setter
     def precio(self, value):
+        if value < 0:
+            raise ValueError("no puede ser negativo")
         self._precio = value
 
     @property
@@ -28,3 +31,11 @@ class Producto():
     @tipo.setter
     def tipo(self, value):
         self._tipo = value
+
+    @property
+    def estado(self):
+        return self._estado
+
+    @estado.setter
+    def estado(self, value):
+        self._estado = value

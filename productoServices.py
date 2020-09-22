@@ -60,3 +60,21 @@ class ProductoService():
             elif dic[keyBuscada]["_precio"] > precio_buscado:
                 keyBuscada = keyBuscada - keydezplazamiento
         return dic[keyBuscada]
+
+    def update_producto(self, productoKey):
+        lastKey = -1
+        for i in Repositorios.productosList:
+            lastKey = i
+        maxkey = lastKey
+        if productoKey > maxkey:
+            raise ValueError("no se puede modificar si el legajo no existe")
+        Repositorios.productosList[productoKey]['_estado'] = "vendido"
+
+    def listarDisponibles(self):
+        j = 0
+        listado = {}
+        for productoKey in Repositorios.productosList:
+            if Repositorios.productosList[productoKey]['_estado'] == 'disponible':
+                listado[j] = Repositorios.productosList[productoKey]
+                j = j + 1
+        return listado
