@@ -47,7 +47,6 @@ class ProductoService():
                 precio[j] = precioActual
         return dic
 
-    
     def busqueda_binaria(self, listaDesordenada, precio_buscado):
         dic = self.insertion_sort_precio(listaDesordenada, "ascendente")
         keyBuscada = len(dic)//2
@@ -73,8 +72,8 @@ class ProductoService():
     def listarDisponibles(self):
         j = 0
         listado = {}
-        for productoKey in Repositorios.productosList:
-            if Repositorios.productosList[productoKey]['_estado'] == 'disponible':
-                listado[j] = Repositorios.productosList[productoKey]
+        for key in Repositorios.productosList:
+            if Repositorios.productosList[key]['_estado'] == 'disponible':
+                listado[j] = Repositorios.productosList[key]
                 j = j + 1
         return listado

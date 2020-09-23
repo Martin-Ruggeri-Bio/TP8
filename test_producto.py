@@ -46,43 +46,34 @@ class TestProducto(unittest.TestCase):
             Producto(descripcion, precio, tipo)
 
     @parameterized.expand([
-        ("ascendente",  {0: {'_descripcion': 'samsung s10',
-                             '_precio': 200000,
+        ("ascendente", {0: {'_descripcion': 'samsung s10', '_precio': 200000,
+                            '_tipo': 'celular', '_estado': 'disponible'},
+                        1: {'_descripcion': 'samsung s20', '_precio': 400000,
+                            '_tipo': 'celular', '_estado': 'disponible'},
+                        2: {'_descripcion': 'lenovo t490', '_precio': 6000000,
+                            '_tipo': 'computadoras', '_estado': 'disponible'},
+                        3: {'_descripcion': 'HP', '_precio': 6000000,
+                            '_tipo': 'computadoras', '_estado': 'disponible'},
+                        4: {'_descripcion': 'acer', '_precio': 6000500,
+                            '_tipo': 'computadoras', '_estado': 'disponible'}}
+         ),
+        ("descendente", {0: {'_descripcion': 'acer', '_precio': 6000500,
+                             '_tipo': 'computadoras', '_estado': 'disponible'},
+                         1: {'_descripcion': 'lenovo t490', '_precio': 6000000,
+                             '_tipo': 'computadoras', '_estado': 'disponible'},
+                         2: {'_descripcion': 'HP', '_precio': 6000000,
+                             '_tipo': 'computadoras', '_estado': 'disponible'},
+                         3: {'_descripcion': 'samsung s20', '_precio': 400000,
                              '_tipo': 'celular', '_estado': 'disponible'},
-                         1: {'_descripcion': 'samsung s20',
-                             '_precio': 400000,
-                             '_tipo': 'celular', '_estado': 'disponible'},
-                         2: {'_descripcion': 'lenovo t490',
-                             '_precio': 6000000,
-                             '_tipo': 'computadoras', '_estado': 'disponible'},
-                         3: {'_descripcion': 'HP',
-                             '_precio': 6000000,
-                             '_tipo': 'computadoras', '_estado': 'disponible'},
-                         4: {'_descripcion': 'acer',
-                             '_precio': 6000500,
-                             '_tipo': 'computadoras', '_estado': 'disponible'}}),
-        ("descendente", {0: {'_descripcion': 'acer',
-                             '_precio': 6000500,
-                             '_tipo': 'computadoras', '_estado': 'disponible'},
-                         1: {'_descripcion': 'lenovo t490',
-                             '_precio': 6000000,
-                             '_tipo': 'computadoras', '_estado': 'disponible'},
-                         2: {'_descripcion': 'HP',
-                             '_precio': 6000000,
-                             '_tipo': 'computadoras', '_estado': 'disponible'},
-                         3: {'_descripcion': 'samsung s20',
-                             '_precio': 400000,
-                             '_tipo': 'celular', '_estado': 'disponible'},
-                         4: {'_descripcion': 'samsung s10',
-                             '_precio': 200000,
-                             '_tipo': 'celular', '_estado': 'disponible'}}),
-        ])
+                         4: {'_descripcion': 'samsung s10', '_precio': 200000,
+                             '_tipo': 'celular', '_estado': 'disponible'}}
+         ),
+    ])
     def test_insertion_sort_precio(self, tipo_orden, list_ordenada):
         lista_ordenada = ProductoService().\
          insertion_sort_precio(Repositorios.productosList, tipo_orden)
         self.assertDictEqual(lista_ordenada, list_ordenada)
 
-    # Eliminar un producto
     def test_delete_producto(self):
         producto = Producto("HP", 3000, "PC")
         productoKey = ProductoService().add_producto(producto)
@@ -93,19 +84,18 @@ class TestProducto(unittest.TestCase):
     @parameterized.expand([
         ("lenovo t490", 6000000, 'computadoras')
     ])
-    # Verificar la exeption al modificar un producto con un legajo que no existe
     def test_delete_producto_value_error(self, descripcion, precio, tipo):
         long_list = len(Repositorios.productosList)
         with self.assertRaises(ValueError):
             ProductoService().delete_producto(long_list+1)
 
     @parameterized.expand([
-        (200000, {'_descripcion':
-         'samsung s10', '_precio': 200000, '_tipo': 'celular', '_estado': 'disponible'}),
-        (400000, {'_descripcion':
-         'samsung s20', '_precio': 400000, '_tipo': 'celular', '_estado': 'disponible'}),
-        (6000500, {'_descripcion': 
-         'acer','_precio': 6000500, '_tipo': 'computadoras', '_estado': 'disponible'}),
+        (200000, {'_descripcion': 'samsung s10', '_precio': 200000,
+                  '_tipo': 'celular', '_estado': 'disponible'}),
+        (400000, {'_descripcion': 'samsung s20', '_precio': 400000,
+                  '_tipo': 'celular', '_estado': 'disponible'}),
+        (6000500, {'_descripcion': 'acer', '_precio': 6000500,
+                   '_tipo': 'computadoras', '_estado': 'disponible'}),
     ])
     # Busqueda binaria
     def test_busqueda_binaria(self, precio_buscado, producto):
@@ -116,22 +106,22 @@ class TestProducto(unittest.TestCase):
     @parameterized.expand([(2,), (3,)])
     def test_update_producto(self, productoKey):
         # Creamos producto
-        productoVendido = Producto(Repositorios.productosList[productoKey]['_descripcion'],
-                                   Repositorios.productosList[productoKey]['_precio'],
-                                   Repositorios.productosList[productoKey]['_tipo'],
-                                   "vendido")
+        productoVendido = Producto(
+            Repositorios.productosList[productoKey]['_descripcion'],
+            Repositorios.productosList[productoKey]['_precio'],
+            Repositorios.productosList[productoKey]['_tipo'],
+            "vendido")
         ProductoService().update_producto(productoKey)
-        self.assertDictEqual(Repositorios.productosList[productoKey], productoVendido
-                             .__dict__)
+        self.assertDictEqual(Repositorios.productosList[productoKey],
+                             productoVendido.__dict__)
 
-    
     def test_listar_disponibles(self, key={0: 0, 1: 1, 2: 4}):
         listado = ProductoService().listarDisponibles()
-        listado2={}
+        listado2 = {}
         j = 0
         for productoKey in Repositorios.productosList:
             if Repositorios.productosList[productoKey] != 2 and\
-            Repositorios.productosList[productoKey] != 3:
+               Repositorios.productosList[productoKey] != 3:
                 listado2[j] = Repositorios.productosList[productoKey]
             j = j + 1
         self.assertDictEqual(listado, listado2)
